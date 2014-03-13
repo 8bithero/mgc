@@ -13,6 +13,7 @@ wp_enqueue_script(
     'bp-js', BP_PLUGIN_URL . '/bp-themes/bp-default/_inc/global.js',
     array( 'jquery' ) 
 );
+
 function mgc_setup() {
 	
 	// Enable support for Post Thumbnails, and declare two sizes.

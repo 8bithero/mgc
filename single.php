@@ -1,4 +1,4 @@
-<?php get_header();?>
+<?php get_header('hbox');?>
         <section id="content">
           <section class="vbox bg-white">
             <section class="scrollable">
@@ -34,7 +34,7 @@
       </section>
     </section>
   </section>
-  <?php wp_footer();?>
+  <?php wp_footer('hbox');?>
 
 </body>
 </html>

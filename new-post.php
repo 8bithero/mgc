@@ -1,6 +1,7 @@
 <?php
   /* Template name: New Post */
 ?>
+<?php $post = get_post($_GET['project']); ?>
 <?php get_header('hbox');?>
         <section id="content">
           <section class="vbox new-project">
@@ -178,8 +179,8 @@
     </section>
   </section>
 
-  <?php wp_footer();?>
-<script src="<?php echo get_template_directory_uri();?>/js/newpost/ajax.js"></script>
+
+<script src="<?php echo get_template_directory_uri();?>/js/newpost/newpost.js"></script>
 <script src="<?php echo get_template_directory_uri();?>/js/fuelux/fuelux.js" cache="false"></script>
 
 <!-- select2 -->
@@ -188,6 +189,8 @@
 <script src="<?php echo get_template_directory_uri();?>/js/wysiwyg/jquery.hotkeys.js" cache="false"></script>
 <script src="<?php echo get_template_directory_uri();?>/js/wysiwyg/bootstrap-wysiwyg.js" cache="false"></script>
 <script src="<?php echo get_template_directory_uri();?>/js/wysiwyg/demo.js" cache="false"></script>
+
+  <?php wp_footer();?>
 
 
 </body>

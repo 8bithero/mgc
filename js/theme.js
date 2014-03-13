@@ -43,7 +43,7 @@ $(function() {
                         localStorage.setItem("post-id", post.post_id );
                         localStorage.setItem("post-title", post.post_title );
                         localStorage.setItem("post-permalink", post.post_permalink );
-                        console.log(goTo);
+                        console.log(goTo +='/?project='+post.post_id);
                         window.location = goTo; 
                        
                     },

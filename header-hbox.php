@@ -26,7 +26,7 @@ localStorage.setItem("blog-url", blog_url );
   <![endif]-->
   <?php wp_head();?>
 </head>
-<body>
+<body <?php body_class();?>>
   <?php include 'modal.php';?>
   <section>
     <header class="bg-dark dk header navbar navbar-fixed-top-xs">
