@@ -5,7 +5,7 @@
               <section class="hbox stretch">
                 <section>
                   <section class="vbox">
-                    <section class="wrapper no-padding">
+                    <section class="scrollable wrapper no-padding">
                       <div id="packery" class="gallery packery js-packery project-items">
                           <?php 
                             // The Query

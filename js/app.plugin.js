@@ -259,7 +259,7 @@
       );
   	}
 
-
+  	console.log('app-plugin.js loaded');
 
   });
 }(window.jQuery);

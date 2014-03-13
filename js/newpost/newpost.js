@@ -1,6 +1,5 @@
 $(function() {
 
-
     var blog_url = localStorage.getItem("blog-url");
     //--------------------------------------------------------------------------------------------------
     //         Add previous add data to form
@@ -157,7 +156,6 @@ $(function() {
         });
       $.when(save_project).then(function(){
         $('.ajax-modal').removeClass('md-show');
-        ajax_spinner();
       })
     }
     var submission = false;
@@ -193,7 +191,7 @@ $(function() {
         autosave = true;
         form_submission(autosave);
     })
-
+        console.log('newpost.js loaded');
     //--------------------------------------------------------------------------------------------------
     //          Upload an image
     //--------------------------------------------------------------------------------------------------
@@ -253,4 +251,7 @@ $(function() {
 
           });
         // END UPLOADER
+
+console.log('newpost.js loaded');
+
 });

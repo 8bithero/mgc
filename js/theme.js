@@ -13,6 +13,8 @@ $(function() {
         TweenMax.to($('#sign-inner'), 0.5, {top: "0px"});
     });
 
+
+
     //-------------------------------------
     // Add New Project
     //------------------------------------
@@ -27,7 +29,7 @@ $(function() {
             var title = $('#begin-project-title').val();
 
             if(title){
-                $.ajax({
+        var new_project =  $.ajax({
                     type: 'POST',
                     url: blog_url +'/wp-admin/admin-ajax.php',
                     data: {
@@ -41,12 +43,16 @@ $(function() {
                         localStorage.setItem("post-id", post.post_id );
                         localStorage.setItem("post-title", post.post_title );
                         localStorage.setItem("post-permalink", post.post_permalink );
-                        window.location = goTo;
+                       
                     },
                     error: function(errorThrown){
                         alert('Ajax Error');
                     },
-                });
+                })
+            $.when(new_project).then(function(){
+                 window.location = goTo;  
+            });
+
             } else {
                 if(!error){
                     $('#begin-project-title').after('<span class="help-block m-b-none error-make-project">You need to set a project title..</span>');
@@ -54,9 +60,8 @@ $(function() {
                 };
             }
         })
-        
     });
-    console.log('theme.js loaded');
+
 
     //-------------------------------------
     // Adding Packery
@@ -209,11 +214,11 @@ $(function() {
     var SlideTextFadeIn = $('#textFadeIn');
         TweenMax.to(SlideTextFadeIn, 1.5, {delay:1, alpha:1});
 
+    console.log('theme.js loaded');
+
 });
 
 $(window).load(function(){
-
-    $('.home-projects').height($('#packery').height());
 
     var container = document.querySelector('.packery');
     if(container){

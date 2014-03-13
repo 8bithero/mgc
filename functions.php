@@ -1,6 +1,6 @@
 <?php 
 
-global $userdata, $bp, $wp; 
+global $userdata, $bp, $wp, $editor; 
 
 include( TEMPLATEPATH . '/bp/bp-functions.php' );
 
@@ -53,7 +53,7 @@ function mgc_styles() {
 	wp_enqueue_style( 'app', get_template_directory_uri() . '/css/app.css');
 	wp_enqueue_style( 'modal', get_template_directory_uri() . '/css/modal.css');
 }
-add_action( 'init', 'mgc_styles' );
+add_action( 'wp_enqueue_scripts', 'mgc_styles' );
 
 
 	function mgc_home_styles() {
@@ -62,7 +62,7 @@ add_action( 'init', 'mgc_styles' );
 		wp_enqueue_style( 'filterslider', get_template_directory_uri() . '/js/slider/slider.css');
 		wp_enqueue_script( 'slider', get_template_directory_uri() . '/js/slider/bootstrap-slider.js', array( 'jquery' ), NULL, true );
 	}
-	add_action( 'init', 'mgc_home_styles' );
+	add_action( 'wp_enqueue_scripts', 'mgc_home_styles' );
 
 
 /**
@@ -93,9 +93,8 @@ add_action( 'wp_enqueue_scripts', 'mgc_standard_scripts' );
 function mgc_custom_scripts() {
 	wp_enqueue_script( 'theme-js', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), NULL, false );
 	wp_enqueue_script( 'profile', get_template_directory_uri() . '/js/profile.js', array( 'jquery' ), NULL, false );
-
 }
-add_action( 'init', 'mgc_custom_scripts' );
+add_action( 'wp_enqueue_scripts', 'mgc_custom_scripts' );
 /**
  * Enqueue scripts and styles for the front end.
  *
@@ -286,7 +285,7 @@ function vimeo(){
     add_action( 'wp_ajax_insert_project', 'insert_project' );
 
     function insert_project(){
-    	global $current_user, $post;
+    	global $current_user, $post, $editor;
     	$user_ID = get_current_user_id();
     	$user_info = get_userdata($user_ID);
     	$post = array(
@@ -307,7 +306,7 @@ function vimeo(){
     	} else {
     		$permalink = 'project is still a draft';
     	}
-
+    	$GLOBALS['project_editor'] = 'test';
     	$data = array(
     		'post_status' => 'draft',
     		'post_id' => $post,
@@ -317,8 +316,6 @@ function vimeo(){
     	echo json_encode($data);
     	die();
     }
-
-
 
     add_action( 'wp_ajax_nopriv_project_submit', 'project_submit' );
 	add_action( 'wp_ajax_project_submit', 'project_submit' );

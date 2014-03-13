@@ -1,5 +1,8 @@
 <?php
   /* Template name: New Post */
+
+  global $editor, $post;
+  var_dump($post);
 ?>
 <?php get_header('hbox');?>
         <section id="content">
@@ -177,38 +180,18 @@
       </section>
     </section>
   </section>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.3/TweenMax.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="<?php echo get_template_directory_uri();?>/js/bootstrap.js"></script>
-  <!-- App -->
-  <script src="<?php echo get_template_directory_uri();?>/js/app.js"></script>
-  <script src="<?php echo get_template_directory_uri();?>/js/theme.js"></script>
-  <script src="<?php echo get_template_directory_uri();?>/js/app.plugin.js"></script>
-  <script src="<?php echo get_template_directory_uri();?>/js/slimscroll/jquery.slimscroll.min.js"></script>
-  <script src="<?php echo get_template_directory_uri();?>/js/plupload.full.min.js"></script>
 
-<script src="<?php echo get_template_directory_uri();?>/js/modalEffects.js" cache="false"></script>
-<!-- fuelux -->
-<script src="<?php echo get_template_directory_uri();?>/js/newpost/newpost.js" cache="false"></script>
+  <?php wp_footer();?>
+
 <script src="<?php echo get_template_directory_uri();?>/js/fuelux/fuelux.js" cache="false"></script>
-<!-- datepicker -->
-<script src="<?php echo get_template_directory_uri();?>/js/datepicker/bootstrap-datepicker.js" cache="false"></script>
-<!-- slider -->
-<script src="<?php echo get_template_directory_uri();?>/js/slider/bootstrap-slider.js" cache="false"></script>
-<!-- file input -->  
-<script src="<?php echo get_template_directory_uri();?>/js/file-input/bootstrap-filestyle.min.js" cache="false"></script>
-<!-- combodate -->
-<script src="<?php echo get_template_directory_uri();?>/js/libs/moment.min.js" cache="false"></script>
-<script src="<?php echo get_template_directory_uri();?>/js/combodate/combodate.js" cache="false"></script>
+
 <!-- select2 -->
 <script src="<?php echo get_template_directory_uri();?>/js/select2/select2.min.js" cache="false"></script>
 <!-- wysiwyg -->
 <script src="<?php echo get_template_directory_uri();?>/js/wysiwyg/jquery.hotkeys.js" cache="false"></script>
 <script src="<?php echo get_template_directory_uri();?>/js/wysiwyg/bootstrap-wysiwyg.js" cache="false"></script>
 <script src="<?php echo get_template_directory_uri();?>/js/wysiwyg/demo.js" cache="false"></script>
-<!-- markdown -->
-<script src="<?php echo get_template_directory_uri();?>/js/markdown/epiceditor.min.js" cache="false"></script>
-<script src="<?php echo get_template_directory_uri();?>/js/markdown/demo.js" cache="false"></script>
+
 
 </body>
 </html>

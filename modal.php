@@ -79,6 +79,7 @@
 		<div class="md-modal md-effect-2" id="modal-2">
 			<div class="md-content">
 				<div>
+					<form id="new-project" name="insert-project" methode="POST">
 					<section class="panel panel-default">
 						<div class="row">
 							<div class="col-sm-12">
@@ -97,12 +98,13 @@
 							</div>
 						</div>
                       	<footer class="panel-footer bg-light lter">
-                        	<button class="btn btn-info pull-right make-project">Begin project <i class="fa fa-rocket"></i></button>
+                        	<button type="submit" class="btn btn-info pull-right make-project">Begin project <i class="fa fa-rocket"></i></button>
                         	<ul class="nav nav-pills nav-sm">
                         	<li><strong>You</strong> have has <strong><?php echo count_user_posts( $user_id ); ?></strong> projects.</li>
                         	</ul>
                       	</footer>
                     </section>
+                </form>
 				</div>
 			</div>
 		</div>
