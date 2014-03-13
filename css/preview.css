@@ -1,0 +1,151 @@
+	/*
+      
+    Theme Name: Pixelentity
+    Description: Mopho Animated Jpeg plugin for codecanyon.net
+    Theme Owner: pixelentity
+    File: Main css file  
+    Design & Development: pixelentity
+    Web:    http://pixelentity.com
+            
+    */
+    
+
+	/*-----------------------------------------------------------------*/
+	
+	/*thumbgrid demo 02 & general*/
+	
+	.thumbgrid1{
+		margin-top:110px;
+		margin-bottom:60px;
+		position:relative;
+		overflow:hidden;
+		width:900px;
+		height:482px;
+	}
+	
+	.thumbgrid1 a{
+		float:left;
+		display:block;
+		margin:0 0 1px 1px;
+	}
+
+	
+	/*-----------------------------------------------------------------*/
+	
+	/*demo 01 grid layout css*/
+	
+	/*all absolutely positioned */
+	/*numbers corresponde to numbering in psd file*/
+	
+	#t1{
+		width:224px;
+		height:234px;
+		top:0; 
+		left:0;
+	}
+	
+	#t2{
+		width:123px;
+		height:124px;
+		top:235px;
+		left:0;
+	}
+	
+	#t3{
+		width:123px;
+		height:122px;
+		top:360px;
+		left:0;
+	}
+	
+	#t4{
+		width:336px;
+		height:160px;
+		top:0;
+		left:225px;
+	}
+	
+	#t5{
+		width:79px;
+		height:73px;
+		top:161px;
+		left:225px;
+	}
+	
+	#t6{
+		width:180px;
+		height:247px;
+		bottom:0;
+		left:124px;
+	}
+	
+	#t7{
+		width:256px;
+		height:256px;
+		bottom:65px;
+		left:305px;
+	}
+	
+	#t8{
+		width:162px;
+		height:64px;
+		bottom:0;
+		left:305px;
+	}
+	
+	#t9{
+		width:211px;
+		height:321px;
+		top:0;
+		left:562px;
+	}
+	
+	#t10{
+		width:112px;
+		height:95px;
+		bottom:65px;
+		left:562px;
+	}
+	
+	#t11{
+		width:206px;
+		height:64px;
+		bottom:0;
+		left:468px;
+	}
+	
+	#t12{
+		width:125px;
+		height:125px;
+		top:0;
+		left:774px;
+	}
+	
+	#t13{
+		width:125px;
+		height:125px;
+		top:126px;
+		left:774px;
+	}
+	
+	#t14{
+		width:125px;
+		height:69px;
+		top:252px;
+		left:774px;
+	}
+	
+	#t15{
+		width:224px;
+		height:160px;
+		bottom:0;
+		left:675px;
+	}
+	
+	
+	
+	/*-----------------------------------------------------------------*/
+	
+	
+	
+	
