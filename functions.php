@@ -279,8 +279,6 @@ function vimeo(){
             echo getPostViews(get_the_ID());
         }
     }
-
-
     add_action( 'wp_ajax_nopriv_insert_project', 'insert_project' );
     add_action( 'wp_ajax_insert_project', 'insert_project' );
 
@@ -306,7 +304,12 @@ function vimeo(){
     	} else {
     		$permalink = 'project is still a draft';
     	}
-    	$GLOBALS['project_editor'] = 'test';
+    	if( !session_id()){
+        	session_start();
+
+    		$_SESSION['post_id'] = $post;
+    	}
+
     	$data = array(
     		'post_status' => 'draft',
     		'post_id' => $post,

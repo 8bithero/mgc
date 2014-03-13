@@ -29,7 +29,7 @@ $(function() {
             var title = $('#begin-project-title').val();
 
             if(title){
-        var new_project =  $.ajax({
+            var new_project =  $.ajax({
                     type: 'POST',
                     url: blog_url +'/wp-admin/admin-ajax.php',
                     data: {
@@ -43,15 +43,14 @@ $(function() {
                         localStorage.setItem("post-id", post.post_id );
                         localStorage.setItem("post-title", post.post_title );
                         localStorage.setItem("post-permalink", post.post_permalink );
+                        console.log(goTo);
+                        window.location = goTo; 
                        
                     },
                     error: function(errorThrown){
                         alert('Ajax Error');
                     },
                 })
-            $.when(new_project).then(function(){
-                 window.location = goTo;  
-            });
 
             } else {
                 if(!error){
@@ -61,6 +60,8 @@ $(function() {
             }
         })
     });
+
+
 
 
     //-------------------------------------

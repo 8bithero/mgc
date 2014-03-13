@@ -1,8 +1,5 @@
 <?php
   /* Template name: New Post */
-
-  global $editor, $post;
-  var_dump($post);
 ?>
 <?php get_header('hbox');?>
         <section id="content">
@@ -182,7 +179,7 @@
   </section>
 
   <?php wp_footer();?>
-
+<script src="<?php echo get_template_directory_uri();?>/js/newpost/ajax.js"></script>
 <script src="<?php echo get_template_directory_uri();?>/js/fuelux/fuelux.js" cache="false"></script>
 
 <!-- select2 -->
