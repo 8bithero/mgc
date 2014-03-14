@@ -14,6 +14,30 @@ $(function() {
     });
 
 
+    function createCookie(name,value,days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+    }
+
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        createCookie(name,"",-1);
+    }
 
     //-------------------------------------
     // Add New Project
@@ -43,14 +67,17 @@ $(function() {
                         localStorage.setItem("post-id", post.post_id );
                         localStorage.setItem("post-title", post.post_title );
                         localStorage.setItem("post-permalink", post.post_permalink );
-                        console.log(goTo +='/?project='+post.post_id);
-                        window.location = goTo; 
                        
                     },
                     error: function(errorThrown){
                         alert('Ajax Error');
                     },
                 })
+            $.when(new_project).then(function(data){
+                var post = JSON.parse(data);
+                createCookie('post_id',post.post_id,1)
+                window.location = goTo; 
+            });
 
             } else {
                 if(!error){
@@ -60,6 +87,16 @@ $(function() {
             }
         })
     });
+
+    $('.to_editor').on('click', function(event){
+        event.preventDefault();
+        
+        var goTo = $(this).attr('href');
+        var post_id = $(this).attr('rel');
+        createCookie('post_id',post_id,1);
+        
+        window.location = goTo;
+    })
 
 
 
@@ -118,6 +155,8 @@ $(function() {
             $('.ajax-modal').removeClass('md-show');
         });
     };
+
+
 
 
     $('.slider-horizontal').on('slide', function(ev){

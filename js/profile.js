@@ -71,6 +71,7 @@ $(function() {
 		}
 	})
 
+	//Save profile
 	function profile_save(){	
 		var username = $('input[name="edit-username"]').val();
 		var nickname = $('input[name="edit-nickname"]').val(); 
@@ -125,6 +126,5 @@ $(function() {
 		event.preventDefault();
 		profile_save();
 	})
-	 console.log('profile.js loaded');
 
 });

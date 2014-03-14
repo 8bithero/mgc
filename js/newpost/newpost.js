@@ -123,7 +123,7 @@ $(function() {
             },
             beforeSend:function(data){ // Are not working with dataType:'jsonp'
               if(!autosave){
-                  $('#ajax-modal').trigger('click');
+                  $('.ajax-modal').addClass('md-show');
               }
             },
             success: function(data){

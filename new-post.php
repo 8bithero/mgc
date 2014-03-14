@@ -1,7 +1,8 @@
 <?php
   /* Template name: New Post */
 ?>
-<?php $post = get_post($_GET['project']); ?>
+<?php 
+$post = get_post($_COOKIE['post_id']); ?>
 <?php get_header('hbox');?>
         <section id="content">
           <section class="vbox new-project">
@@ -190,8 +191,4 @@
 <script src="<?php echo get_template_directory_uri();?>/js/wysiwyg/bootstrap-wysiwyg.js" cache="false"></script>
 <script src="<?php echo get_template_directory_uri();?>/js/wysiwyg/demo.js" cache="false"></script>
 
-  <?php wp_footer();?>
-
-
-</body>
-</html>
+<?php get_footer('hbox');?>

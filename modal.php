@@ -132,5 +132,3 @@
 				</div>
 			</div>
 		</div>
-		<div id="ajax-modal" class="md-trigger" data-modal="modal-3"></div>
-
