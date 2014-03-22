@@ -60,7 +60,7 @@
                                 <div class="form-group">
                                   <label class="col-sm-3 control-label">Country</label>
                                   <div class="col-sm-9">
-                                    <select id="edit-country" name="edit-country">
+                                    <select id="edit-country" name="edit-country" class="col-md-6 no-padding">
                                         <?php
                                         //adding <option>countries 
                                          include 'countries.php' ?>

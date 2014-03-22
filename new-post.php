@@ -1,19 +1,22 @@
 <?php
   /* Template name: New Post */
 ?>
-<?php 
-$post = get_post($_COOKIE['post_id']); ?>
+<?php
+//var_dump($_COOKIE['post_id']);
+$post = get_post($_COOKIE['post_id']);
+//var_dump($post);
+ ?>
 <?php get_header('hbox');?>
         <section id="content">
           <section class="vbox new-project">
-            <section class="scrollable padder">
+            <section class="padder full-height">
               <ul class="breadcrumb no-border no-radius b-b b-light pull-in">
                 <li><a href="<?php echo bloginfo('url');?>"><i class="fa fa-home"></i> Home</a></li>
                 <li><a href="<?php echo bloginfo('url');?>">Overview</a></li>
                 <li class="active">Projects</li>
               </ul>
               <div class="m-b-md">
-                <h3 class="m-b-none project-title">New Project</h3>
+                <h3 class="m-b-none project-title">New Project: <?php echo $post->post_title;?></h3>
               </div>
               <section class="panel panel-default">
                 <header class="panel-heading font-bold autosavenotice">
@@ -22,6 +25,8 @@ $post = get_post($_COOKIE['post_id']); ?>
                 </header>
                 <div class="panel-body">
                   <form id="formpost-project" class="form-horizontal" method="post" enctype="multipart/form-data"> 
+                    <input type="hidden" id="project-id" name="project-id" value="<?php echo $post->ID;?>" />
+                    <input type="hidden" id="project-status" name="project-status" value="<?php echo $post->post_status;?>" /> 
                     <div class="form-group">
                       <div class="col-lg-10">
                         <div class="col-sm-6">
@@ -33,7 +38,7 @@ $post = get_post($_COOKIE['post_id']); ?>
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Project title</label>
                       <div class="col-sm-10">
-                        <input type="text" id="project-title" name="project-title" class="form-control" placeholder="<?php echo get_the_title($post_id);?>">
+                        <input type="text" id="project-title" name="project-title" class="form-control" placeholder="Enter project title" value="<?php echo $post->post_title;?>">
                         <span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span>
                       </div>
                     </div>
@@ -41,7 +46,13 @@ $post = get_post($_COOKIE['post_id']); ?>
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Direct link</label>
                       <div class="col-lg-10">
-                        <p id="project-permalink" class="form-control-static">email@example.com</p>
+                        <p id="project-permalink" class="form-control-static">
+                          <?php if($post->post_status == 'publish'){
+                            echo get_permalink($post->ID);
+                            echo '<a class="btn btn-xs btn-info pull-right" href="'.get_permalink($post->ID).'" title="'.$post->post_title.'" target="_blank">  View project</a>';
+                          }else{
+                            echo 'Project is still in draft';
+                          }?></p>
                       </div>
                     </div>                          
                     <div class="line line-dashed line-lg pull-in"></div>
@@ -51,14 +62,44 @@ $post = get_post($_COOKIE['post_id']); ?>
                         <div class="row">
                           <div class="col-md-4 categories-project">
                             <div>
-                              <input type="hidden" name="project-categories" id="select2-categories" style="width:260px" value=""/>
+                              <?php 
+                              $categories = get_the_category($post->ID);
+                              $cur_cats = [];
+                              
+                              foreach($categories as $category) {
+                                $cur_cats[] = $category->cat_name;
+                              }
+
+                              $args = array(
+                              'orderby' => 'name',
+                              'order' => 'ASC'
+                              );
+                            
+                              $categories = get_categories($args);
+                              foreach($categories as $category) {
+                                if(in_array($category->cat_name, $cur_cats)){
+                                  $selected = "selected='selected'";
+                                } else{
+                                  $selected = "";
+                                }
+                                $options .= "<option value='".$category->term_id."' ".$selected." >".$category->name."</option>";
+
+                              }
+                              ?>
+                              <select name="project-categories[]" id="select2-categories" class="col-md-12 no-padding" multiple="multiple">
+                             <?php
+                              echo $options;
+                              ?>
+                            </select>
                             </div>
                           </div>
                           <div class="col-md-6 tags-project">
+                             <!-- 
                             <label class="col-sm-2 control-label">Tags</label>  
                             <div>
                               <input type="hidden" name="project-tags" id="select2-tags" style="width:260px" value=""/>
                             </div>
+                            -->
                           </div>
                         </div>
                       </div>
@@ -76,7 +117,7 @@ $post = get_post($_COOKIE['post_id']); ?>
                               <li><a class="video_source" data-source="youtube" href="#">Youtube</a></li>
                             </ul>
                           </div><!-- /btn-group -->
-                          <input type="text" name="project-video" class="form-control video-input">
+                          <input type="text" id="project-video" name="project-video" class="form-control video-input" value="<?php echo get_post_meta($post->ID, 'synch_videolink', true);?>">
                         </div>
                       </div>
                     </div>   
@@ -88,14 +129,6 @@ $post = get_post($_COOKIE['post_id']); ?>
                           <div class="btn-group">
                             <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
                               <ul class="dropdown-menu">
-                              </ul>
-                          </div>
-                          <div class="btn-group">
-                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                              <ul class="dropdown-menu">
-                              <li><a data-edit="fontSize 5"><font size="5">Huge</font></a></li>
-                              <li><a data-edit="fontSize 3"><font size="3">Normal</font></a></li>
-                              <li><a data-edit="fontSize 1"><font size="1">Small</font></a></li>
                               </ul>
                           </div>
                           <div class="btn-group">
@@ -139,19 +172,45 @@ $post = get_post($_COOKIE['post_id']); ?>
                             <a class="btn btn-default btn-sm" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
                           </div>
                         </div>
-                        <div id="editor" class="form-control project-editor" style="overflow:scroll;height:150px;max-height:150px">
-                          Go ahead&hellip;
+                        <div id="editor" class="form-control project-editor" style="overflow:scroll;height:250px;max-height:250px">
+                         
+                          <?php if($post->post_content){
+                            $content = $post->post_content;
+                            $content = preg_replace("/<img[^>]+\>/i", "", $content); 
+                            echo $content;
+                          } else {
+                            echo ' Go ahead&hellip';
+                          }?>
                         </div>
-                        <textarea id="project-content" name="project-content"></textarea>
+                        <textarea id="project-content" name="project-content">
+                          <?php if($post->post_content){
+                            $content = $post->post_content;
+                            $content = preg_replace("/<img[^>]+\>/i", "", $content); 
+                            echo $content;
+                          } else {
+                            echo ' Go ahead&hellip';
+                          }?></textarea>
                       </div>
                     </div>
-                    <div class="line line-dashed line-lg pull-in"></div>
-                    <div id="plupload-upload-ui" class="form-group hide-if-no-js">
-                      <label class="col-sm-2 control-label">Drag and Drop</label>
-                      <div id="drag-drop-area">
-                        <div class="drag-drop-inside col-sm-10">
-                          <div id="drop-area" class="dropfile visible-lg">
-                            <small class="drag-drop-buttons">Drag and Drop file here - or <p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="btn btn-default btn-sm" /></p></small>
+                    
+                    <div id="thumb" style="display:block">
+                      <div class="line line-dashed line-lg pull-in"></div>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">Thumbnail <br/><br/> <a href="" id="remove-thumb" class="btn btn-xs btn-danger">Remove image</a></label>
+                        <div id="post-thumbnail" class="col-lg-10">
+                          <?php echo get_the_post_thumbnail( $post->ID, 'full' );?>
+                        </div>
+                      </div> 
+                    </div>
+                    <div id="dragdrop" style="display:none">         
+                      <div class="line line-dashed line-lg pull-in"></div>
+                      <div id="plupload-upload-ui" class="form-group hide-if-no-js">
+                        <label class="col-sm-2 control-label">Drag and Drop<br/> your image to upload</label>
+                        <div id="drag-drop-area">
+                          <div class="drag-drop-inside col-sm-10">
+                            <div id="drop-area" class="dropfile visible-lg">
+                              <small class="drag-drop-buttons">Drag and Drop file here - or <p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="btn btn-default btn-sm" /></p></small>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -173,8 +232,11 @@ $post = get_post($_COOKIE['post_id']); ?>
           </section>
           <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
         </section>
-        <aside class="bg-light lter b-l aside-md hide" id="notes">
-          <div class="wrapper">Notification</div>
+        <aside class="bg-light lter b-l aside-md ads">
+          <div class="wrapper">
+            <img src="http://placehold.it/300x225"/>
+            <img src="http://placehold.it/300x225"/>
+          </div>
         </aside>
       </section>
     </section>

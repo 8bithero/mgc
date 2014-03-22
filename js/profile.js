@@ -28,7 +28,6 @@ $(function() {
 	})
 
 
-
 	// Character count
 	function char_count(){
 		var chars = (200 - ($( ".info-profile" ).text().length));

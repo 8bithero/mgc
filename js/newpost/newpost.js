@@ -4,21 +4,15 @@ $(function() {
     //--------------------------------------------------------------------------------------------------
     //         Add previous add data to form
     //--------------------------------------------------------------------------------------------------
-    function update_form(){
+  function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+  }
 
-      if (localStorage.getItem("post-id")) {  
-        $('input[name="project-title"]').val(localStorage.getItem("post-title"));
-        $('.project-title').text('New Project: '+localStorage.getItem("post-title"));
-        $('#project-permalink').html(localStorage.getItem("post-permalink"));
-        $('.project-editor').html(localStorage.getItem("post-content"));
-        $('textarea').val(localStorage.getItem("post-content"));
-        $('input[name="project-video"]').val(localStorage.getItem("post-video"));
-      }
-    }
-    $(window).load(update_form);
+  var cookie = getCookie('post_id');
 
-
-
+    /* .select2('val', arr) */
     //--------------------------------------------------------------------------------------------------
     //          Set post status
     //--------------------------------------------------------------------------------------------------
@@ -86,26 +80,52 @@ $(function() {
     }
     function addLeadingZero(n){ return n < 10 ? '0'+n : ''+n }
 
+    function remove_thumb(){
+      var ID = $('#project-id').val();
+      var remove = $.ajax({
+          type:'POST',
+          url: blog_url +'/wp-admin/admin-ajax.php',
+          data: {
+                action: 'remove_thumbnail',
+                delete_id: ID,
+              },
+              beforeSend:function(data){ // Are not working with dataType:'jsonp'
+                if(!autosave){
+                    $('.ajax-modal').addClass('md-show');
+                }
+              },
+              success: function(data){
+                  console.log(data);
+              },
+              error: function(errorThrown){
+                  console.log('Ajax Error');
+              }
+            });
+        $.when(remove).then(function(){
+          $('#thumb').hide(150);
+          $('#dragdrop').show(150);
+          $('.ajax-modal').removeClass('md-show');
+        })
+    }
+
     //--------------------------------------------------------------------------------------------------
     //          Trigger on form submission
     //--------------------------------------------------------------------------------------------------
     var autosave = false;
     function form_submission(autosave){
         // Set variables of the form
+        var id          = $('#project-id').val();
+        var title       = $('#project-title').val();
+        var categories  = $('#select2-categories').val();
+        var video_link  = $('#project-video').val();
+        var content     = $('#project-content').val();
+        var status      = $('#project-status').val();
+        
 
         if(!autosave){
             event.preventDefault();
             var status = 'publish';
         }
-        var title = $("input[name='project-title']").val();
-        var permalink = localStorage.getItem("post-permalink");
-        var categories = $("input[name='project-categories']").val();
-        var tags = $("input[name='project-tags']").val();
-        var video_link = $("input[name='project-video']").val();
-        var content = $("textarea").text();
-        var id = localStorage.getItem("post-id");
-        
-
        var save_project = $.ajax({
             type: 'POST',
             url: blog_url +'/wp-admin/admin-ajax.php',
@@ -114,10 +134,8 @@ $(function() {
                 status: status,
                 id: id,
                 title: title,
-                permalink: permalink,
                 content: content,
                 categories: categories,
-                tags: tags,
                 video: video_link,
                 autosave: autosave,
             },
@@ -128,19 +146,11 @@ $(function() {
             },
             success: function(data){
               var post = JSON.parse(data);
-              console.log(post);
               var d = new Date();
               var hours = d.getHours();
               var minutes = d.getMinutes();
               var seconds = d.getSeconds();
               var time = 'at ' + hours + ':' + minutes;
-
-                localStorage.setItem("post-status", post.post_status );
-                localStorage.setItem("post-id", post.post_id );
-                localStorage.setItem("post-title", post.post_title );
-                localStorage.setItem("post-content", post.post_content );
-                localStorage.setItem("post-categorie", post.post_category );
-                localStorage.setItem("post-video", post.post_video );
 
                 if(autosave){
                   $('#post_time').html('Autosave ' + time);
@@ -154,6 +164,7 @@ $(function() {
                 console.log('Ajax Error');
             }
         });
+      
       $.when(save_project).then(function(){
         $('.ajax-modal').removeClass('md-show');
       })
@@ -162,12 +173,18 @@ $(function() {
     $( "#publish_project" ).click(function( event ) {
       form_submission();
       submission = true;
+      $('#project-status').val('publish');
       set_post_status('publish');
     });
 
     $( "#draft_project" ).click(function( event ) {
-      form_submission();
+      form_submission(autosave);
       set_post_status('draft');
+    });
+
+    $('#remove-thumb').click(function( event ){
+      remove_thumb();
+      form_submission(autosave);
     });
 
     var setAutosave;
@@ -191,7 +208,6 @@ $(function() {
         autosave = true;
         form_submission(autosave);
     })
-        console.log('newpost.js loaded');
     //--------------------------------------------------------------------------------------------------
     //          Upload an image
     //--------------------------------------------------------------------------------------------------
@@ -251,7 +267,5 @@ $(function() {
 
           });
         // END UPLOADER
-
-console.log('newpost.js loaded');
 
 });

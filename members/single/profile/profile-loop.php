@@ -66,7 +66,7 @@
                     </div>
                   </div>
                   <div class="tab-pane" id="drafts">
-                    <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                    <div id="packery" class="gallery packery">
                       <?php
 
                       $args = array(
@@ -74,32 +74,42 @@
                       'post_status' => 'draft',
                       'author' => $bp->displayed_user->id,
                       );
+
                       // The Query
                       $the_query = new WP_Query( $args );
 
                       // The Loop
                       if ( $the_query->have_posts() ) {
                       while ( $the_query->have_posts() ) { 
-                      $the_query->the_post(); ?>
+                      $the_query->the_post();
+                        $classes = array(
+                            'project_item',
+                            'own_projects'
+                        );
+                       ?>
 
+                      <div id="post-<?php the_ID();?>" <?php post_class( $classes);?> data-size="<?php echo getPostViews(get_the_ID()); ?>">
+                        </a>
+                        <figure class="caption">
+                          <?php the_post_thumbnail('thumb');?>
+                          <?php $link =  get_bloginfo('url') . '/editor'; ?>
+                          <a class="to_editor" href="<?php echo $link; ?>" rel="<?php echo get_the_id();?>">
+                            <figcaption>
+                              <h3><?php the_title();?></h3>
+                            </figcaption>
+                          </a>
+                      </figure>             
+                      </div>
+                      <?php }
+                      } else { ?>
                       <li class="list-group-item">
-                        <a href="#" class="thumb-sm pull-left m-r-sm">
-                          <img src="<?php echo wp_get_attachment_url( get_post_thumbnail_id(get_the_id()) );?>" class="img-circle">
-                        </a>
-                        <a href="#" class="clear">
-                          <small class="pull-right"><?php echo get_post_status();?></small>
-                          <strong class="block"><?php the_title();?></strong>
-                          <small><?php echo get_post_meta(get_the_ID(), 'synch_videolink', true); ?></small>
-                        </a>
+                       <a class="slide_cta white new-project" href="<?php echo get_permalink(107);?>" title="Submit a project">Submit a project</a>
                       </li>
                       <?php }
-                      } else {
-                      // no posts found
-                      }
                       /* Restore original Post Data */
                       wp_reset_postdata();
                       ?>
-                    <ul>
+                    </div>
                   </div>
                   <div class="tab-pane" id="laboratory">
                     <div class="text-center wrapper">

@@ -230,6 +230,5 @@ Date.now = Date.now || function() { return +new Date; };
     // dropdown still
     $(document).on('click.bs.dropdown.data-api', '.dropdown .on, .dropup .on', function (e) { e.stopPropagation() });
 
-  console.log('app.js loaded');
   });
 }(jQuery);

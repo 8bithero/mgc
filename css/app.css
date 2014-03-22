@@ -762,6 +762,9 @@ a:hover .caret-white {
 .hidden-load {
   display: none;
 }
+.vbox .full-height {
+  position: relative !important;
+}
 .header-logo {
   margin-top: 0px;
   padding: 26px 22px 18px 22px !important;
@@ -1275,6 +1278,10 @@ a:hover .caret-white {
   background: transparent;
   border: none;
   box-shadow: none;
+}
+#post-thumbnail img {
+  width: 100%;
+  height: auto;
 }
 #sign-inner {
   position: absolute;

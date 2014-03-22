@@ -1,5 +1,5 @@
 $( document ).ready(function() {
-
+    if($('#snap-logo').length > 0){
             function shuffle(o){ //v1.0
                 for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
                 return o;
@@ -66,6 +66,7 @@ $( document ).ready(function() {
                 showTimer = null,
                 hideTimer = null;
 
+
             for (i = 0; i < parts_even.length; i++) {
                 var el = parts_even[newArray[i]],
                 element = logo.select("#" + el[0]);
@@ -95,5 +96,5 @@ $( document ).ready(function() {
 
                 showEach_even();
             }, 15);
-
+    }
 });

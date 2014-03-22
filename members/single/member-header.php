@@ -24,13 +24,7 @@
                           <div class="row">
                             <div class="col-xs-4">
                               <a href="#">
-                                <span class="m-b-xs h4 block">245</span>
-                                <small class="text-muted">Followers</small>
-                              </a>
-                            </div>
-                            <div class="col-xs-4">
-                              <a href="#">
-                                <span class="m-b-xs h4 block">55</span>
+                                <span class="m-b-xs h4 block"><?php echo BP_Friends_Friendship::total_friend_count( bp_displayed_user_id() ) ?></span>
                                 <small class="text-muted">Following</small>
                               </a>
                             </div>

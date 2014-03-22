@@ -1,6 +1,10 @@
 $(function() {
     var blog_url = localStorage.getItem("blog-url");
 
+
+    $('.hbox').height($('.js-heigh').height());
+
+
     //-------------------------------------
     // Sign in - Sign up
     //------------------------------------
@@ -61,6 +65,9 @@ $(function() {
                         title : title,
 
                     },
+                    beforeSend: function(data){
+                        $('.ajax-modal').addClass('md-show');
+                    },
                     success: function(data){
                         var post = JSON.parse(data);
                         localStorage.setItem("post-status", post.post_status );
@@ -77,6 +84,7 @@ $(function() {
                 var post = JSON.parse(data);
                 createCookie('post_id',post.post_id,1)
                 window.location = goTo; 
+                $('.ajax-modal').removeClass('md-show');
             });
 
             } else {
@@ -254,12 +262,18 @@ $(function() {
     var SlideTextFadeIn = $('#textFadeIn');
         TweenMax.to(SlideTextFadeIn, 1.5, {delay:1, alpha:1});
 
-    console.log('theme.js loaded');
-
+    if ($.fn.select2) {
+      $("#select2-option").select2();
+      $("#select2-tags").select2({
+        tags:["Explainer video", "Animation", "Commercial", "Music video", "Program titles", "Short film", "Showreel"],
+        tokenSeparators: [",", " "]}
+      );
+       $("#select2-categories").select2();
+      $('#edit-country').seelect2();  
+    }
 });
 
 $(window).load(function(){
-
     var container = document.querySelector('.packery');
     if(container){
         var pckry = new Packery( container );

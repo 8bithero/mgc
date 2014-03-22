@@ -246,20 +246,5 @@
 		} );
 	});
 
-	// select2 
- 	if ($.fn.select2) {
-      $("#select2-option").select2();
-      $("#select2-tags").select2({
-        tags:["Explainer video", "Animation", "Commercial", "Music video", "Program titles", "Short film", "Showreel"],
-        tokenSeparators: [",", " "]}
-      );
-       $("#select2-categories").select2({
-        tags:["Explainer video", "Animation", "Commercial", "Music video", "Program titles", "Short film", "Showreel"],
-        tokenSeparators: [",", " "]}
-      );
-  	}
-
-  	console.log('app-plugin.js loaded');
-
   });
 }(window.jQuery);

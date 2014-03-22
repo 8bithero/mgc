@@ -115,6 +115,10 @@ function mgc_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'mgc_scripts' );
 
+/*
+ * Redirect after login
+ *
+ */
 function admin_default_page() {
 	if(!current_user_can('manage_options')){
   		return home_url();
@@ -122,6 +126,11 @@ function admin_default_page() {
 }
 
 add_filter('login_redirect', 'admin_default_page');
+
+/*
+ * Adding vide box to projets
+ *
+ */
 function videoBox()
 {
 	$videourl = get_post_meta(get_the_ID(), 'synch_videolink', true);
@@ -140,11 +149,20 @@ function videoBox()
 
 	return false;
 }
+
+/*
+ * Get the videolink of a project
+ *
+ */
 function videoLink(){
 	$videourl = get_post_meta(get_the_ID(), 'synch_videolink', true);
 	return $videourl;
 }
 
+
+/*
+ * Curl the vimeo video.
+ */
 function vimeo(){
 	// Change this to your username to load in your clips
 	$vimeo_user_name = ($_GET['user']) ? $_GET['user'] : 'brad';
@@ -280,6 +298,11 @@ function vimeo(){
             echo getPostViews(get_the_ID());
         }
     }
+
+    /*
+	 * Insert new project
+	 *
+	 */
     add_action( 'wp_ajax_nopriv_insert_project', 'insert_project' );
     add_action( 'wp_ajax_insert_project', 'insert_project' );
 
@@ -321,12 +344,15 @@ function vimeo(){
     	die();
     }
 
+    /*
+	 * Submit a project
+	 *
+	 */
     add_action( 'wp_ajax_nopriv_project_submit', 'project_submit' );
 	add_action( 'wp_ajax_project_submit', 'project_submit' );
 
 	function project_submit(){
-
-		$categories = (explode(",",$_POST['categories']));
+		$categories = $_POST['categories'];
 
 		if($_POST['status'] === 'publish'){
 			$status = 'publish';
@@ -334,15 +360,6 @@ function vimeo(){
 			$status = 'draft';
 		}
 
-		$cat = array();
-		$cat_return = array();
-		$i=0;
-		foreach ($categories as $categorie) {
-			$cat_return .= '{ id: "'.$i.'", text:"'.$categorie.'"},';
-			$cat[] = get_cat_ID($categorie);
-			$i++;
-		}
-		$categorie = implode(',',$cat);
 		$user_ID = get_current_user_id();
 		$insert_project= array(
 			'ID'			=> $_POST['id'],
@@ -351,11 +368,11 @@ function vimeo(){
 	 		'post_status'   => $status,
 	  		'post_author'   => $user_ID,
 	  		'post_type' 	=> 'post',
-	 		'post_category' => array($categorie)  
+	 		'post_category' => $_POST['categories']
 		);
 
 		// Insert the post into the database
-		$post = wp_insert_post( $insert_project);
+		$post = wp_update_post( $insert_project);
 		update_post_meta($post, 'synch_videolink', $_POST['video']);
 
 		$slug = get_post($post->ID)->post_name;
@@ -371,15 +388,19 @@ function vimeo(){
 			'post_status' => $status,
 			'post_id' => $post,
 			'post_title' => $_POST['title'],
-			'post_content' => $_POST['content'],
+			'post_content' => trim($_POST['content'], " \n"),
 			'post_video' => $_POST['video'],
+			'post_cats' => $_POST['categories'],
 		);
 
 		echo json_encode($data);
 		die();
 	}
 
-
+	/*
+	 * Upload funtionality
+	 *
+	 */
 	function plupload_wp_head() {  
 	// place js config array for plupload
 	    $plupload_init = array(
@@ -439,7 +460,10 @@ function vimeo(){
 		});           
 
 
-
+	/*
+	 * Do profile changes
+	 *
+	 */
 	add_action( 'wp_ajax_nopriv_profile_save_changes', 'profile_save_changes' );
 	add_action( 'wp_ajax_profile_save_changes', 'profile_save_changes' );
 
@@ -494,9 +518,13 @@ function vimeo(){
 		die();
 	}
 
+
+	/*
+	 * Project filtering
+	 *
+	 */
 	add_action( 'wp_ajax_nopriv_filter_projects', 'filter_projects' );
 	add_action( 'wp_ajax_filter_projects', 'filter_projects' );
-
 	function filter_projects(){
 
 		//Global variable
@@ -545,8 +573,6 @@ function vimeo(){
 		if($type == 'recent'){
 			$type = null;
 		}
-
-
 		//Make the loop
 		$args = array(
 				'post_per_page' => -1,
@@ -607,10 +633,19 @@ function vimeo(){
 		return;
 	};
 
+	/*
+	* Remove the thumbnail
+	*
+	*/
+	add_action( 'wp_ajax_nopriv_remove_thumbnail', 'remove_thumbnail' );
+	add_action( 'remove_thumbnail', 'remove_thumbnail' );
+	function remove_thumbnail(){
+		$delete_id = $_POST['delete_id'];
+		delete_post_thumbnail($ID);
 
-
-
-
+		echo json_encode('deleted id' . $delete_id);
+		die();
+	};
 
 
 
